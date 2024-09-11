@@ -15,6 +15,9 @@ export function run(input: RunInput): FunctionRunResult {
   );
 
   try {
+    //AB test for the bundle discount
+    if (input.cart.bundleTest?.value != "enabled") return EMPTY_DISCOUNT;
+
     const packProductsWithQuantity = input.cart.lines.reduce(
       (acc, lineItem) => {
         if ("product" in lineItem.merchandise) {

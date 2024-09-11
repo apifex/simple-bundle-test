@@ -1,5 +1,8 @@
 query RunInput {
   cart {
+    bundleTest: attribute(key: "BundleTest") {
+      value
+    }
     lines {
       quantity
       cost {
