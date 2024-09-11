@@ -66,7 +66,9 @@ export function run(input: RunInput): FunctionRunResult {
             const discountAmount =
               (lineItem.cost.amountPerQuantity.amount -
                 Number(threePackPrice)) *
-              lineItem.quantity;
+              (lineItem.quantity <= 3 - discountApplied
+                ? lineItem.quantity
+                : 3 - discountApplied);
 
             discounts.push({
               message: "3-Pack Discount",
@@ -82,7 +84,9 @@ export function run(input: RunInput): FunctionRunResult {
           if (quantity >= 2 && twoPackPrice && discountApplied < 2) {
             const discountAmount =
               (lineItem.cost.amountPerQuantity.amount - Number(twoPackPrice)) *
-              lineItem.quantity;
+              (lineItem.quantity <= 2 - discountApplied
+                ? lineItem.quantity
+                : 2 - discountApplied);
 
             discounts.push({
               message: "2-Pack Discount",
