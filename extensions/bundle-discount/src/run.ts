@@ -55,7 +55,11 @@ export function run(input: RunInput): FunctionRunResult {
     const discounts: Discount[] = [];
 
     input.cart.lines.forEach((lineItem) => {
-      if ("product" in lineItem.merchandise) {
+      if (
+        "product" in lineItem.merchandise &&
+        //optional check for the bundle item - need to be verified with merchant if needed
+        lineItem.bundleItem?.value === "Yes"
+      ) {
         const packProduct =
           packProductsWithQuantity[lineItem.merchandise.product.id];
         if (packProduct) {
@@ -72,7 +76,7 @@ export function run(input: RunInput): FunctionRunResult {
 
             discounts.push({
               message: "3-Pack Discount",
-              targets: [{ productVariant: { id: lineItem.merchandise.id } }],
+              targets: [{ cartLine: { id: lineItem.id } }],
               value: { fixedAmount: { amount: discountAmount.toString() } },
             });
             packProductsWithQuantity[
@@ -90,7 +94,7 @@ export function run(input: RunInput): FunctionRunResult {
 
             discounts.push({
               message: "2-Pack Discount",
-              targets: [{ productVariant: { id: lineItem.merchandise.id } }],
+              targets: [{ cartLine: { id: lineItem.id } }],
               value: { fixedAmount: { amount: discountAmount.toString() } },
             });
             packProductsWithQuantity[

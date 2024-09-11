@@ -4,11 +4,15 @@ query RunInput {
       value
     }
     lines {
+      id
       quantity
       cost {
         amountPerQuantity {
           amount
         }
+      }
+      bundleItem: attribute(key: "_isBundleItem") {
+        value
       }
       merchandise {
         __typename
